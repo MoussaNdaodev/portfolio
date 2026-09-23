@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfolio de Moussa Ndao, développeur Mobile Flutter et Full Stack spécialisé en Flutter, Laravel et Angular.">
+  <meta name="theme-color" content="#080b12">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Moussa Ndao — Développeur Mobile · Flutter · Full Stack</title>
+  <script>
+    (() => {
+      const saved = localStorage.getItem('moussa-portfolio-theme');
+      document.documentElement.dataset.theme = saved || 'dark';
+    })();
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+    :root {
+      color-scheme: light;
+      --bg: #f3f4ef;
+      --bg-2: #e9ebe4;
+      --surface: rgba(255, 255, 255, .72);
+      --surface-solid: #fbfcf8;
+      --surface-strong: #ffffff;
+      --ink: #11151b;
+      --muted: #626b72;
+      --faint: #92999f;
+      --line: rgba(17, 21, 27, .11);
+      --line-strong: rgba(17, 21, 27, .19);
+      --lime: #b9f542;
+      --lime-ink: #315600;
+      --violet: #7357ff;
+      --violet-soft: #d8d0ff;
+      --cyan: #35d8e3;
+      --orange: #ff8a47;
+      --nav: rgba(243, 244, 239, .78);
+      --shadow: 0 24px 80px rgba(24, 30, 37, .12);
+      --display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+      --body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+      --radius-xl: 34px;
+      --radius-lg: 25px;
+      --radius-md: 17px;
+      --max: 1180px;
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #080b12;
+      --bg-2: #0d111a;
+      --surface: rgba(19, 24, 35, .69);
+      --surface-solid: #111722;
+      --surface-strong: #171e2a;
+      --ink: #f4f7f1;
+      --muted: #a1aab5;
+      --faint: #697381;
+      --line: rgba(232, 241, 245, .11);
+      --line-strong: rgba(232, 241, 245, .2);
+      --lime: #b9f542;
+      --lime-ink: #172800;
+      --violet: #927dff;
+      --violet-soft: #342d62;
+      --cyan: #4de0e9;
+      --orange: #ff9b62;
+      --nav: rgba(8, 11, 18, .74);
+      --shadow: 0 28px 90px rgba(0, 0, 0, .32);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 94px; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 5% 15%, color-mix(in srgb, var(--violet) 12%, transparent), transparent 28rem),
+        radial-gradient(circle at 94% 38%, color-mix(in srgb, var(--cyan) 9%, transparent), transparent 30rem),
+        var(--bg);
+      font: 400 1rem/1.65 var(--body);
+      -webkit-font-smoothing: antialiased;
+      transition: color .35s ease, background-color .35s ease;
+    }
+
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img, svg { display: block; }
+    ::selection { color: #0b1004; background: var(--lime); }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: grid;
+      place-items: center;
+      background: #080b12;
+      transition: opacity .65s cubic-bezier(.77, 0, .18, 1), visibility .65s;
+    }
+    .loader.done { opacity: 0; visibility: hidden; }
+    .loader-mark { color: #f7f9f4; font: 800 clamp(3rem, 9vw, 7rem)/1 var(--display); letter-spacing: -.09em; }
+    .loader-mark span { color: var(--lime); }
+    .loader-line { width: 190px; height: 2px; margin-top: 24px; overflow: hidden; background: rgba(255,255,255,.14); }
+    .loader-line::after { content: ""; display: block; width: 45%; height: 100%; background: var(--lime); animation: loader 1s ease-in-out infinite; }
+
+    .progress { position: fixed; inset: 0 auto auto 0; z-index: 120; width: 0; height: 3px; background: linear-gradient(90deg, var(--lime), var(--cyan), var(--violet)); }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .section { position: relative; padding: 124px 0; }
+    .section-kicker { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; color: var(--violet); font-size: .75rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    .section-kicker::before { content: ""; width: 26px; height: 2px; background: currentColor; }
+    .section-head { display: grid; grid-template-columns: 1.05fr .7fr; align-items: end; gap: 60px; margin-bottom: 58px; }
+    .section-head h2 { margin: 0; max-width: 720px; font: 700 clamp(2.5rem, 5.7vw, 5.2rem)/.99 var(--display); letter-spacing: -.065em; }
+    .section-head p { margin: 0 0 8px; color: var(--muted); font-size: 1.02rem; }
+    .accent-word { color: var(--violet); }
+
+    /* Navigation */
+    .nav-shell { position: fixed; inset: 18px 0 auto; z-index: 100; pointer-events: none; }
+    .nav {
+      width: min(1120px, calc(100% - 36px));
+      min-height: 66px;
+      margin-inline: auto;
+      padding: 8px 9px 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      background: var(--nav);
+      box-shadow: 0 12px 45px rgba(0,0,0,.08);
+      backdrop-filter: blur(20px) saturate(140%);
+      pointer-events: auto;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font: 800 .96rem/1 var(--display); letter-spacing: -.03em; }
+    .brand-mark { width: 39px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 12px; background: var(--ink); color: var(--bg); font-size: .78rem; }
+    .nav-links { display: flex; align-items: center; gap: 3px; }
+    .nav-links a { position: relative; padding: 10px 11px; border-radius: 10px; color: var(--muted); font-size: .8rem; font-weight: 700; transition: color .2s, background .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
+    .nav-actions { display: flex; align-items: center; gap: 7px; }
+    .icon-btn { width: 42px; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; transition: transform .2s, border-color .2s, background .2s; }
+    .icon-btn:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+    .icon-btn svg { width: 18px; }
+    html[data-theme="light"] .sun, html[data-theme="dark"] .moon { display: none; }
+    .menu-btn { display: none; }
+    .nav-contact { padding: 11px 16px; border-radius: 12px; background: var(--lime); color: var(--lime-ink); font-size: .78rem; font-weight: 800; transition: transform .2s, box-shadow .2s; }
+    .nav-contact:hover { transform: translateY(-2px); box-shadow: 0 10px 24px color-mix(in srgb, var(--lime) 24%, transparent); }
+
+    /* Hero */
+    .hero { min-height: 100svh; padding: 155px 0 82px; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.13fr .87fr; align-items: center; gap: clamp(50px, 8vw, 110px); }
+    .hero-copy { position: relative; z-index: 2; }
+    .available { width: max-content; display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: .76rem; font-weight: 700; backdrop-filter: blur(12px); }
+    .available i { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 5px color-mix(in srgb, var(--lime) 15%, transparent); animation: pulse 2.2s infinite; }
+    .hero h1 { margin: 25px 0 0; max-width: 790px; font: 700 clamp(4rem, 8.5vw, 8rem)/.85 var(--display); letter-spacing: -.085em; }
+    .hero h1 .line { display: block; overflow: hidden; }
+    .hero h1 .line > span { display: block; animation: titleIn .9s .25s both cubic-bezier(.2,.8,.2,1); }
+    .hero h1 .line:nth-child(2) > span { animation-delay: .38s; }
+    .hero h1 .gradient { background: linear-gradient(110deg, var(--violet), var(--cyan) 50%, var(--lime)); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: titleIn .9s .38s both cubic-bezier(.2,.8,.2,1), gradientFlow 7s linear infinite; }
+    .hero-role { margin: 27px 0 0; color: var(--ink); font: 700 clamp(1.06rem, 2vw, 1.35rem)/1.35 var(--display); letter-spacing: -.025em; }
+    .hero-description { max-width: 620px; margin: 13px 0 0; color: var(--muted); font-size: 1.05rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
+    .btn { min-height: 53px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 21px; border: 1px solid transparent; border-radius: 15px; font-size: .86rem; font-weight: 800; cursor: pointer; transition: transform .25s, border-color .25s, background .25s, box-shadow .25s; }
+    .btn svg { width: 18px; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { background: var(--ink); color: var(--bg); box-shadow: 0 14px 38px color-mix(in srgb, var(--ink) 15%, transparent); }
+    .btn-primary:hover { box-shadow: 0 18px 42px color-mix(in srgb, var(--ink) 24%, transparent); }
+    .btn-secondary { border-color: var(--line-strong); background: var(--surface); color: var(--ink); backdrop-filter: blur(12px); }
+    .btn-secondary:hover { border-color: var(--violet); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 17px; margin-top: 28px; color: var(--faint); font-size: .75rem; font-weight: 700; }
+    .hero-meta a { display: inline-flex; align-items: center; gap: 7px; transition: color .2s; }
+    .hero-meta a:hover { color: var(--violet); }
+    .hero-meta svg { width: 15px; }
+
+    .visual { position: relative; min-height: 610px; perspective: 1100px; }
+    .visual-orb { position: absolute; inset: 7% -10% 3% 8%; border-radius: 48% 52% 42% 58% / 52% 38% 62% 48%; background: linear-gradient(145deg, var(--violet), var(--cyan) 50%, var(--lime)); filter: saturate(115%); animation: morph 11s ease-in-out infinite, float 6s ease-in-out infinite; box-shadow: 0 35px 100px color-mix(in srgb, var(--violet) 25%, transparent); }
+    .visual-orb::after { content: ""; position: absolute; inset: 1px; border-radius: inherit; background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.02)); }
+    .portrait {
+      position: absolute;
+      z-index: 2;
+      inset: 10% 7% 8% 10%;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 46% 46% 28px 28px;
+      background: linear-gradient(160deg, rgba(12,16,26,.58), rgba(12,16,26,.84));
+      box-shadow: 0 28px 70px rgba(0,0,0,.24);
+      backdrop-filter: blur(10px);
+      transform: rotate(-2deg);
+      transition: transform .4s ease;
+    }
+    .visual:hover .portrait { transform: rotate(0deg) translateY(-5px); }
+    .photo-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,.9); font: 800 clamp(8rem, 18vw, 13rem)/1 var(--display); letter-spacing: -.12em; text-shadow: 0 20px 60px rgba(0,0,0,.24); }
+    .photo-placeholder::before { content: ""; position: absolute; inset: 13%; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; }
+    .profile-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; opacity: 0; transform: scale(1.04); transition: opacity .5s, transform .8s; }
+    .profile-photo.loaded { opacity: 1; transform: scale(1); }
+    .portrait-info { position: absolute; inset: auto 19px 19px; z-index: 3; padding: 17px 18px; border: 1px solid rgba(255,255,255,.16); border-radius: 17px; background: rgba(7,10,16,.62); color: white; backdrop-filter: blur(16px); }
+    .portrait-info strong { display: block; font: 700 .98rem/1.2 var(--display); }
+    .portrait-info span { color: rgba(255,255,255,.64); font-size: .72rem; }
+    .floating-card { position: absolute; z-index: 4; padding: 13px 15px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface-solid); box-shadow: var(--shadow); backdrop-filter: blur(15px); animation: float 5s ease-in-out infinite; }
+    .floating-card small { display: block; color: var(--faint); font-size: .63rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .floating-card strong { display: flex; align-items: center; gap: 7px; margin-top: 3px; font: 700 .8rem/1.3 var(--display); }
+    .floating-card i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); }
+    .float-one { top: 7%; left: -5%; animation-delay: -1s; }
+    .float-two { right: -8%; top: 42%; animation-delay: -2.5s; }
+    .float-three { left: -2%; bottom: 3%; animation-delay: -3.5s; }
+    .orbit { position: absolute; inset: 1% -6% -1% 0; border: 1px dashed color-mix(in srgb, var(--ink) 20%, transparent); border-radius: 50%; animation: rotate 28s linear infinite; }
+    .orbit::before { content: ""; position: absolute; top: 14%; left: 6%; width: 12px; height: 12px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 7px color-mix(in srgb, var(--orange) 12%, transparent); }
+
+    .marquee-wrap { overflow: hidden; padding: 17px 0; border-block: 1px solid var(--line); background: var(--surface); }
+    .marquee { display: flex; width: max-content; animation: marquee 26s linear infinite; }
+    .marquee-group { display: flex; align-items: center; }
+    .marquee span { display: inline-flex; align-items: center; gap: 23px; padding-right: 23px; color: var(--muted); font: 700 .77rem/1 var(--display); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+    .marquee span::after { content: "✦"; color: var(--violet); }
+
+    /* About / vision */
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    .bento { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); backdrop-filter: blur(14px); }
+    .vision-card { min-height: 480px; padding: clamp(30px, 5vw, 55px); display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(135deg, color-mix(in srgb, var(--violet) 17%, var(--surface)), var(--surface) 60%); }
+    .vision-card::after { content: "“"; position: absolute; top: -58px; right: 12px; color: color-mix(in srgb, var(--violet) 14%, transparent); font: 800 18rem/1 var(--display); }
+    .vision-icon { width: 52px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 16px; background: var(--violet); color: #fff; }
+    .vision-icon svg { width: 24px; }
+    .vision-quote { position: relative; z-index: 1; max-width: 780px; margin: 70px 0 34px; font: 600 clamp(2rem, 4.5vw, 4.25rem)/1.08 var(--display); letter-spacing: -.055em; }
+    .vision-sign { display: flex; align-items: center; gap: 13px; color: var(--muted); font-size: .85rem; font-weight: 700; }
+    .vision-sign::before { content: ""; width: 38px; height: 2px; background: var(--lime); }
+    .about-side { display: grid; gap: 20px; }
+    .mini-card { min-height: 230px; padding: 28px; }
+    .mini-card h3 { margin: 0; font: 700 1rem/1.3 var(--display); }
+    .mini-card p { margin: 14px 0 0; color: var(--muted); font-size: .91rem; }
+    .current-card { background: var(--ink); color: var(--bg); }
+    html[data-theme="dark"] .current-card { background: #f2f5ed; color: #10151c; }
+    .current-card .mini-label { color: color-mix(in srgb, currentColor 58%, transparent); }
+    .mini-label { display: flex; align-items: center; justify-content: space-between; color: var(--faint); font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .mini-label i { width: 9px; height: 9px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 5px color-mix(in srgb, var(--lime) 16%, transparent); }
+    .current-card strong { display: block; margin-top: 42px; font: 700 clamp(1.65rem, 3vw, 2.5rem)/1.08 var(--display); letter-spacing: -.045em; }
+    .current-card p { color: color-mix(in srgb, currentColor 62%, transparent); }
+    .method-card { background: linear-gradient(150deg, color-mix(in srgb, var(--violet) 86%, #1b1450), color-mix(in srgb, var(--cyan) 72%, #0d3b4a)); color: #fff; }
+    .method-card .mini-label { color: rgba(255,255,255,.72); }
+    .method-card p { color: rgba(255,255,255,.86); }
+    .method-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 34px; }
+    .method-list span { padding: 7px 10px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; font-size: .71rem; font-weight: 800; }
+
+    /* Skills */
+    .skills-section { background: var(--bg-2); border-block: 1px solid var(--line); }
+    .skills-layout { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .skill-card { position: relative; min-height: 275px; padding: 28px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-solid); transition: transform .3s, border-color .3s, box-shadow .3s; }
+    .skill-card:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--violet) 46%, var(--line)); box-shadow: var(--shadow); }
+    .skill-card:nth-child(1), .skill-card:nth-child(4) { grid-column: span 7; }
+    .skill-card:nth-child(2), .skill-card:nth-child(3) { grid-column: span 5; }
+    .skill-index { color: var(--faint); font-size: .68rem; font-weight: 800; letter-spacing: .1em; }
+    .skill-card h3 { margin: 54px 0 17px; font: 700 clamp(1.65rem, 3vw, 2.5rem)/1 var(--display); letter-spacing: -.045em; }
+    .skill-card p { max-width: 580px; margin: 0; color: var(--muted); font-size: .88rem; }
+    .tech-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 25px; }
+    .tech-list span { padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; background: color-mix(in srgb, var(--ink) 3%, transparent); color: var(--muted); font-size: .7rem; font-weight: 800; }
+    .skill-shape { position: absolute; right: -35px; top: -35px; width: 135px; aspect-ratio: 1; border-radius: 42% 58% 55% 45%; background: color-mix(in srgb, var(--violet) 16%, transparent); transform: rotate(20deg); transition: transform .5s; }
+    .skill-card:nth-child(2) .skill-shape { background: color-mix(in srgb, var(--lime) 26%, transparent); }
+    .skill-card:nth-child(3) .skill-shape { background: color-mix(in srgb, var(--cyan) 23%, transparent); }
+    .skill-card:nth-child(4) .skill-shape { background: color-mix(in srgb, var(--orange) 20%, transparent); }
+    .skill-card:hover .skill-shape { transform: rotate(80deg) scale(1.12); }
+
+    /* Projects */
+    .projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .project { --mx: 50%; --my: 50%; position: relative; min-height: 460px; padding: 31px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--surface); transform-style: preserve-3d; transition: border-color .3s, box-shadow .3s; }
+    .project::before { content: ""; position: absolute; inset: 0; opacity: 0; pointer-events: none; background: radial-gradient(350px circle at var(--mx) var(--my), color-mix(in srgb, var(--violet) 17%, transparent), transparent 70%); transition: opacity .3s; }
+    .project:hover::before { opacity: 1; }
+    .project:hover { border-color: color-mix(in srgb, var(--violet) 44%, var(--line)); box-shadow: var(--shadow); }
+    .project.featured { grid-column: span 2; min-height: 590px; background: #11151d; color: #f4f7f1; border-color: rgba(255,255,255,.1); }
+    .project.featured::before { background: radial-gradient(480px circle at var(--mx) var(--my), rgba(146,125,255,.26), transparent 70%); }
+    .project-head { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; transform: translateZ(25px); }
+    .project-type { color: var(--violet); font-size: .68rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .featured .project-type { color: var(--lime); }
+    .project-link { width: 45px; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; opacity: .55; transition: opacity .2s, transform .3s, background .2s; }
+    .project-link svg { width: 18px; }
+    .project:hover .project-link { opacity: 1; transform: rotate(45deg); background: var(--lime); color: #132000; border-color: var(--lime); }
+    .project-content { position: relative; z-index: 2; margin-top: 190px; transform: translateZ(32px); }
+    .featured .project-content { width: 55%; margin-top: 240px; }
+    .project h3 { margin: 0; font: 700 clamp(2rem, 4vw, 4rem)/.98 var(--display); letter-spacing: -.06em; }
+    .project-role { display: block; margin-top: 11px; color: var(--orange); font-size: .76rem; font-weight: 800; }
+    .project p { max-width: 670px; margin: 15px 0 0; color: var(--muted); font-size: .9rem; }
+    .featured p { color: #aeb7c3; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .project-tags span { padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .68rem; font-weight: 800; }
+    .featured .project-tags span { border-color: rgba(255,255,255,.14); color: #c0c8d2; }
+    .project-art { position: absolute; z-index: 1; top: 55px; right: 5%; width: 41%; height: 430px; border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: linear-gradient(145deg, #1c2330, #10141c); transform: rotate(5deg); box-shadow: 0 35px 80px rgba(0,0,0,.35); transition: transform .5s; }
+    .featured:hover .project-art { transform: rotate(2deg) translateY(-7px); }
+    .art-bar { height: 53px; display: flex; align-items: center; gap: 6px; padding: 0 18px; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .art-bar i { width: 7px; height: 7px; border-radius: 50%; background: #ff6b6b; }
+    .art-bar i:nth-child(2) { background: #ffd166; }
+    .art-bar i:nth-child(3) { background: var(--lime); }
+    .art-ui { padding: 22px; }
+    .art-title { width: 48%; height: 12px; border-radius: 6px; background: rgba(255,255,255,.13); }
+    .art-map { position: relative; height: 175px; margin-top: 20px; overflow: hidden; border-radius: 17px; background: linear-gradient(135deg, rgba(146,125,255,.17), rgba(77,224,233,.08)); }
+    .art-map::before, .art-map::after { content: ""; position: absolute; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; }
+    .art-map::before { width: 180px; height: 180px; left: -40px; top: 18px; }
+    .art-map::after { width: 110px; height: 110px; right: -10px; top: -18px; }
+    .scan { position: absolute; inset: 0 0 auto; height: 2px; background: var(--lime); box-shadow: 0 0 18px var(--lime); animation: scan 3s ease-in-out infinite; }
+    .map-pin { position: absolute; left: 55%; top: 43%; width: 17px; height: 17px; border: 4px solid var(--lime); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
+    .art-rows { display: grid; gap: 11px; margin-top: 18px; }
+    .art-row { display: grid; grid-template-columns: 34px 1fr 48px; gap: 10px; align-items: center; }
+    .art-row i { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.09); }
+    .art-row span, .art-row b { height: 8px; border-radius: 5px; background: rgba(255,255,255,.1); }
+    .art-row b { background: rgba(185,245,66,.24); }
+    .project-symbol { position: absolute; top: 60px; right: 42px; color: color-mix(in srgb, var(--violet) 22%, transparent); font: 800 8rem/1 var(--display); letter-spacing: -.12em; transition: transform .5s; }
+    .project:hover .project-symbol { transform: rotate(-8deg) scale(1.08); }
+    .project-symbol.tri { font-size: 5rem; }
+    .project-symbol.quad { font-size: 3.8rem; }
+    .project-stores { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .store-pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .68rem; font-weight: 800; transition: border-color .2s, color .2s, transform .2s; }
+    .store-pill:hover { border-color: var(--violet); color: var(--ink); transform: translateY(-2px); }
+    .store-pill svg { width: 13px; height: 13px; }
+    .featured .store-pill { border-color: rgba(255,255,255,.16); color: #c0c8d2; }
+    .featured .store-pill:hover { border-color: var(--lime); color: #fff; }
+
+    /* Journey */
+    .journey-section { background: var(--bg-2); border-block: 1px solid var(--line); }
+    .journey { position: relative; max-width: 970px; margin-left: auto; }
+    .journey::before { content: ""; position: absolute; top: 16px; bottom: 16px; left: 145px; width: 1px; background: var(--line-strong); }
+    .journey-item { display: grid; grid-template-columns: 112px 1fr; gap: 65px; position: relative; padding: 0 0 62px; }
+    .journey-item:last-child { padding-bottom: 0; }
+    .journey-date { padding-top: 5px; color: var(--faint); font-size: .71rem; font-weight: 800; letter-spacing: .08em; text-align: right; text-transform: uppercase; }
+    .journey-content { position: relative; padding: 0 0 0 20px; }
+    .journey-content::before { content: ""; position: absolute; top: 7px; left: -38px; width: 13px; height: 13px; border: 3px solid var(--bg-2); border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 1px var(--violet); }
+    .journey-content h3 { margin: 0; font: 700 clamp(1.25rem, 2.5vw, 2rem)/1.15 var(--display); letter-spacing: -.035em; }
+    .journey-place { display: block; margin-top: 5px; color: var(--violet); font-size: .8rem; font-weight: 800; }
+    .journey-content p { margin: 11px 0 0; color: var(--muted); font-size: .9rem; }
+    .education-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 72px; }
+    .education { padding: 21px; border: 1px solid var(--line); border-radius: 17px; background: var(--surface); }
+    .education small { color: var(--violet); font-size: .67rem; font-weight: 800; }
+    .education strong { display: block; margin-top: 17px; font: 700 .9rem/1.35 var(--display); }
+    .education span { display: block; margin-top: 6px; color: var(--muted); font-size: .72rem; }
+
+    /* Contact */
+    .contact-section { padding-bottom: 36px; }
+    .contact-card { position: relative; min-height: 600px; overflow: hidden; padding: clamp(35px, 7vw, 85px); display: flex; align-items: flex-end; border-radius: 42px; background: #11151d; color: #f4f7f1; box-shadow: var(--shadow); }
+    .contact-card::before { content: ""; position: absolute; width: 620px; height: 620px; top: -280px; right: -120px; border-radius: 42% 58% 63% 37%; background: linear-gradient(145deg, #795fff, #39dbe5 52%, #b9f542); animation: morph 12s ease-in-out infinite, rotate 30s linear infinite; }
+    .contact-card::after { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 55px 55px; mask-image: linear-gradient(to top, #000, transparent 80%); }
+    .contact-content { position: relative; z-index: 2; max-width: 850px; }
+    .contact-kicker { color: var(--lime); font-size: .74rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .contact-card h2 { margin: 16px 0 0; font: 700 clamp(3rem, 7.5vw, 7.3rem)/.88 var(--display); letter-spacing: -.08em; }
+    .contact-card p { max-width: 610px; margin: 24px 0 0; color: #aeb7c3; font-size: 1rem; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
+    .contact-actions .btn-primary { background: var(--lime); color: #162000; }
+    .contact-actions .btn-secondary { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.06); color: white; }
+    .contact-details { display: flex; flex-wrap: wrap; gap: 15px 28px; margin-top: 35px; color: #8f99a7; font-size: .75rem; font-weight: 700; }
+    .contact-details a { transition: color .2s; }
+    .contact-details a:hover { color: var(--lime); }
+
+    footer { padding: 31px 0 36px; color: var(--faint); font-size: .73rem; font-weight: 700; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .to-top { display: flex; align-items: center; gap: 8px; transition: color .2s; }
+    .to-top:hover { color: var(--violet); }
+    .to-top svg { width: 15px; }
+
+    /* Reveal and animation */
+    [data-reveal] { opacity: 0; transform: translateY(32px); transition: opacity .75s cubic-bezier(.2,.75,.2,1), transform .75s cubic-bezier(.2,.75,.2,1); transition-delay: var(--delay, 0ms); }
+    [data-reveal].visible { opacity: 1; transform: translateY(0); }
+    @keyframes loader { from { transform: translateX(-120%); } to { transform: translateX(280%); } }
+    @keyframes titleIn { from { opacity: 0; transform: translateY(105%); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes gradientFlow { to { background-position: -220% 0; } }
+    @keyframes pulse { 50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--lime) 2%, transparent); } }
+    @keyframes float { 50% { transform: translateY(-13px) rotate(1deg); } }
+    @keyframes morph { 0%,100% { border-radius: 48% 52% 42% 58% / 52% 38% 62% 48%; } 50% { border-radius: 60% 40% 55% 45% / 42% 57% 43% 58%; } }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    @keyframes scan { 0%,100% { top: 0; opacity: .1; } 50% { top: 100%; opacity: 1; } }
+
+    @media (max-width: 980px) {
+      .nav-links { position: fixed; inset: 92px 18px auto; max-height: 0; overflow: hidden; flex-direction: column; align-items: stretch; gap: 4px; padding: 0 12px; border: 1px solid transparent; border-radius: 20px; background: var(--surface-solid); box-shadow: var(--shadow); opacity: 0; transition: max-height .35s, padding .35s, opacity .25s, border-color .25s; }
+      .nav-links.open { max-height: 430px; padding-block: 12px; opacity: 1; border-color: var(--line); }
+      .nav-links a { padding: 12px; }
+      .nav-contact { display: none; }
+      .menu-btn { display: grid; }
+      .hero { min-height: auto; padding-top: 150px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-copy { text-align: center; }
+      .available, .hero-actions, .hero-meta { margin-inline: auto; justify-content: center; }
+      .hero-description { margin-inline: auto; }
+      .hero h1 { font-size: clamp(4rem, 15vw, 7rem); }
+      .visual { width: min(520px, 88%); min-height: 600px; margin: 0 auto; }
+      .section-head { grid-template-columns: 1fr; gap: 18px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-side { grid-template-columns: 1fr 1fr; }
+      .skill-card:nth-child(n) { grid-column: span 6; }
+      .featured .project-content { width: 58%; }
+      .education-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 700px) {
+      .wrap { width: min(100% - 28px, var(--max)); }
+      .section { padding: 88px 0; }
+      .section-head { margin-bottom: 36px; }
+      .section-head h2 { font-size: clamp(2.5rem, 13vw, 4rem); }
+      .nav-shell { top: 10px; }
+      .nav { width: calc(100% - 20px); min-height: 61px; }
+      .brand > span:last-child { display: none; }
+      .hero { padding: 130px 0 65px; }
+      .hero h1 { font-size: clamp(3.65rem, 19vw, 5.7rem); }
+      .hero-role { font-size: 1rem; }
+      .hero-actions .btn { width: 100%; }
+      .hero-meta { gap: 13px; }
+      .visual { width: 95%; min-height: 505px; }
+      .portrait { inset: 10% 5% 9% 7%; }
+      .float-one { left: -3%; }
+      .float-two { right: -4%; }
+      .float-three { left: 0; }
+      .floating-card { padding: 10px 12px; }
+      .floating-card strong { font-size: .7rem; }
+      .vision-card { min-height: 450px; }
+      .vision-quote { margin-top: 90px; font-size: clamp(2rem, 10vw, 3.25rem); }
+      .about-side { grid-template-columns: 1fr; }
+      .skill-card:nth-child(n) { grid-column: 1 / -1; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project, .project.featured { grid-column: auto; min-height: 475px; padding: 25px; }
+      .project.featured { min-height: 690px; }
+      .project-art { top: 75px; right: 7%; width: 86%; height: 330px; }
+      .featured .project-content { width: 100%; margin-top: 395px; }
+      .project-content { margin-top: 205px; }
+      .project-symbol { font-size: 6rem; right: 25px; }
+      .journey { margin-left: 0; }
+      .journey::before { left: 7px; }
+      .journey-item { grid-template-columns: 1fr; gap: 8px; padding-left: 34px; padding-bottom: 50px; }
+      .journey-date { text-align: left; }
+      .journey-content { padding-left: 0; }
+      .journey-content::before { left: -33px; }
+      .education-strip { grid-template-columns: 1fr; }
+      .contact-card { min-height: 680px; padding-bottom: 45px; border-radius: 29px; }
+      .contact-card::before { width: 430px; height: 430px; top: -160px; right: -180px; }
+      .contact-card h2 { font-size: clamp(3.2rem, 16vw, 5rem); }
+      .contact-actions .btn { width: 100%; }
+      .contact-details { flex-direction: column; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      [data-reveal] { opacity: 1; transform: none; }
+    }
+    :focus-visible { outline: 3px solid var(--lime); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader" aria-hidden="true"><div><div class="loader-mark">M<span>N</span>.</div><div class="loader-line"></div></div></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="nav-shell">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="brand" href="#accueil" aria-label="Accueil de Moussa Ndao"><span class="brand-mark">MN</span><span>Moussa Ndao</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#apropos">À propos</a>
+        <a href="#competences">Expertise</a>
+        <a href="#projets">Projets</a>
+        <a href="#parcours">Parcours</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Changer le thème">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.7A8.6 8.6 0 1 1 11.3 3a6.8 6.8 0 0 0 9.7 9.7Z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        </button>
+        <a class="nav-contact" href="#contact">Parlons de votre projet</a>
+        <button class="icon-btn menu-btn" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="available"><i></i> Disponible pour de nouvelles opportunités</div>
+          <h1>
+            <span class="line"><span>Moussa</span></span>
+            <span class="line"><span class="gradient">Ndao.</span></span>
+          </h1>
+          <p class="hero-role">Développeur Mobile Flutter · Full Stack</p>
+          <p class="hero-description">Je conçois et développe des applications mobiles et web performantes — de l'API à l'interface — avec une attention particulière à l'expérience utilisateur et à la qualité du code.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary magnetic" href="#projets">Explorer mes projets
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+            <a class="btn btn-secondary" href="CV_Moussa_Ndao.pdf" download>Télécharger mon CV
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
+            </a>
+          </div>
+          <div class="hero-meta">
+            <a href="https://www.linkedin.com/in/moussa-ndao-61b1222b7" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8.3H3.2V19h3.3V8.3ZM4.85 3A1.93 1.93 0 1 0 4.8 6.85 1.93 1.93 0 0 0 4.85 3ZM19.8 12.9c0-3.23-1.72-4.73-4.02-4.73a3.49 3.49 0 0 0-3.17 1.75V8.3H9.3V19h3.32v-5.3c0-1.4.26-2.75 2-2.75 1.7 0 1.73 1.6 1.73 2.84V19h3.32l.13-6.1Z"/></svg>LinkedIn</a>
+            <a href="https://github.com/MoussaNdaodev" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0 1 12 6.82a9.6 9.6 0 0 1 2.5.34c1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>GitHub</a>
+            <span>Pikine, Dakar · Sénégal</span>
+          </div>
+        </div>
+
+        <div class="visual" data-reveal aria-label="Portrait graphique de Moussa Ndao">
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="visual-orb" aria-hidden="true"></div>
+          <div class="portrait">
+            <div class="photo-placeholder" aria-hidden="true">MN</div>
+            <img class="profile-photo" id="profilePhoto" src="photo-moussa.jpg" alt="Portrait professionnel de Moussa Ndao">
+            <div class="portrait-info"><strong>Concevoir · Développer · Livrer</strong><span>Des applications fiables et agréables à utiliser</span></div>
+          </div>
+          <div class="floating-card float-one"><small>Stack principale</small><strong><i></i> Flutter + Laravel</strong></div>
+          <div class="floating-card float-two"><small>Spécialité</small><strong>Applications mobiles</strong></div>
+          <div class="floating-card float-three"><small>Distinction</small><strong>★ Major de promo DISEP</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee-wrap" aria-label="Compétences principales">
+      <div class="marquee">
+        <div class="marquee-group"><span>Flutter</span><span>Dart</span><span>Laravel</span><span>Angular</span><span>API REST</span><span>PHP</span><span>MySQL</span><span>React</span><span>Tailwind CSS</span><span>TypeScript</span></div>
+        <div class="marquee-group" aria-hidden="true"><span>Flutter</span><span>Dart</span><span>Laravel</span><span>Angular</span><span>API REST</span><span>PHP</span><span>MySQL</span><span>React</span><span>Tailwind CSS</span><span>TypeScript</span></div>
+      </div>
+    </div>
+
+    <section class="section" id="apropos">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div><span class="section-kicker">À propos</span><h2>La technique au service de <span class="accent-word">l'utilisateur.</span></h2></div>
+          <p>Je développe des solutions web et mobiles en gardant la même priorité : comprendre l'utilisateur, simplifier son parcours et construire une base technique saine.</p>
+        </div>
+        <div class="about-grid">
+          <article class="bento vision-card" data-reveal>
+            <span class="vision-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+            <blockquote class="vision-quote">« Une bonne application, c'est celle qu'on oublie tant elle est intuitive, et qu'on garde tant elle est utile. »</blockquote>
+            <div class="vision-sign">Ma vision du développement</div>
+          </article>
+          <div class="about-side">
+            <article class="bento mini-card current-card" data-reveal style="--delay:100ms">
+              <div class="mini-label"><span>Actuellement</span><i></i></div>
+              <strong>Développeur Mobile chez MLouma.</strong>
+              <p>Applications Flutter pour l'agriculture, le social et le secteur public.</p>
+            </article>
+            <article class="bento mini-card method-card" data-reveal style="--delay:180ms">
+              <div class="mini-label"><span>Mon approche</span><span>01 — 04</span></div>
+              <div class="method-list"><span>Écouter</span><span>Concevoir</span><span>Développer</span><span>Améliorer</span></div>
+              <p>Une méthode en quatre temps, du cadrage du besoin à la mise en production : je commence par comprendre vos objectifs métier, je structure ensuite une architecture claire et adaptée, je développe avec rigueur et tests, puis j'itère en continu à partir des retours utilisateurs pour livrer un produit qui tient dans la durée.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section skills-section" id="competences">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div><span class="section-kicker">Expertise</span><h2>Une stack complète, sans perdre le <span class="accent-word">sens du produit.</span></h2></div>
+          <p>Du mobile au backend, en passant par les API, les bases de données et le déploiement.</p>
+        </div>
+        <div class="skills-layout">
+          <article class="skill-card" data-reveal><span class="skill-shape"></span><span class="skill-index">01 · MOBILE</span><h3>Des applications natives & performantes.</h3><p>Conception d'applications Flutter multiplateformes, du prototype à la publication sur les stores, avec un soin particulier apporté au design et aux performances.</p><div class="tech-list"><span>Flutter</span><span>Dart</span><span>Android</span><span>iOS</span><span>Firebase</span><span>Provider</span><span>Riverpod</span></div></article>
+          <article class="skill-card" data-reveal style="--delay:80ms"><span class="skill-shape"></span><span class="skill-index">02 · BACKEND</span><h3>Des API robustes & sécurisées.</h3><p>Conception de services maintenables, sécurisés et pensés pour évoluer avec le produit.</p><div class="tech-list"><span>Laravel</span><span>PHP</span><span>Node.js</span><span>API REST</span><span>Spring Boot</span><span>Django</span></div></article>
+          <article class="skill-card" data-reveal><span class="skill-shape"></span><span class="skill-index">03 · FRONTEND</span><h3>Des interfaces claires & dynamiques.</h3><p>Des parcours cohérents, responsives et agréables sur tous les écrans.</p><div class="tech-list"><span>Angular</span><span>TypeScript</span><span>JavaScript</span><span>React</span><span>Tailwind CSS</span><span>Bootstrap</span></div></article>
+          <article class="skill-card" data-reveal style="--delay:80ms"><span class="skill-shape"></span><span class="skill-index">04 · DONNÉES & DEVOPS</span><h3>De l'idée à la production.</h3><p>Modélisation des données, intégrité et déploiement continu pour livrer sereinement.</p><div class="tech-list"><span>MySQL</span><span>PostgreSQL</span><span>MongoDB</span><span>Docker</span><span>Linux</span><span>Git</span><span>CI/CD</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projets">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div><span class="section-kicker">Projets sélectionnés</span><h2>Des idées transformées en <span class="accent-word">produits réels.</span></h2></div>
+          <p>Agriculture, social, e-commerce et mobilité : chaque projet répond à un problème concret, du mobile au web.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="project featured spotlight tilt-card" data-reveal>
+            <div class="project-head"><span class="project-type">Agriculture · Application mobile</span><a class="project-link" href="https://play.google.com/store/apps/details?id=com.mlouma" target="_blank" rel="noopener noreferrer" aria-label="Voir Mlouma sur Google Play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+            <div class="project-art" aria-hidden="true"><div class="art-bar"><i></i><i></i><i></i></div><div class="art-ui"><div class="art-title"></div><div class="art-map"><span class="scan"></span><span class="map-pin"></span></div><div class="art-rows"><div class="art-row"><i></i><span></span><b></b></div><div class="art-row"><i></i><span></span><b></b></div><div class="art-row"><i></i><span></span><b></b></div></div></div></div>
+            <div class="project-content"><h3>Mlouma</h3><span class="project-role">Développeur Flutter · MLouma</span><p>Plateforme mobile mettant en relation producteurs et acheteurs du monde agricole : prix du marché, géolocalisation, commandes, espace administrateur et chatbot intelligent.</p><div class="project-tags"><span>Flutter</span><span>Dart</span><span>Laravel API</span><span>Firebase</span><span>Chatbot IA</span></div><div class="project-stores"><a class="store-pill" href="https://apps.apple.com/sn/app/mlouma/id1665994195?l=fr-FR" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>App Store</a><a class="store-pill" href="https://play.google.com/store/apps/details?id=com.mlouma" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>Google Play</a></div></div>
+          </article>
+
+          <article class="project spotlight tilt-card" data-reveal>
+            <div class="project-head"><span class="project-type">Secteur public · Agriculture</span><a class="project-link" href="https://play.google.com/store/apps/details?id=com.mlouma.ancar" target="_blank" rel="noopener noreferrer" aria-label="Voir ANCAR sur Google Play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div><span class="project-symbol" aria-hidden="true">AN</span>
+            <div class="project-content"><h3>ANCAR</h3><span class="project-role">Développeur Flutter</span><p>Application mobile de diagnostic agricole pour l'Agence Nationale de Conseil Agricole et Rural : diagnostic, notation, recommandations, synchronisation hors ligne et cartographie interactive.</p><div class="project-tags"><span>Flutter</span><span>Offline-first</span><span>Cartographie</span><span>API REST</span></div><div class="project-stores"><a class="store-pill" href="https://play.google.com/store/apps/details?id=com.mlouma.ancar" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>Google Play</a></div></div>
+          </article>
+
+          <article class="project spotlight tilt-card" data-reveal style="--delay:80ms">
+            <div class="project-head"><span class="project-type">Streaming · Événementiel</span><a class="project-link" href="https://play.google.com/store/apps/details?id=net.appdevs.N2S" target="_blank" rel="noopener noreferrer" aria-label="Voir Nawetane sur Google Play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div><span class="project-symbol tri" aria-hidden="true">N2S</span>
+            <div class="project-content"><h3>Nawetane Social Solidaire</h3><span class="project-role">Développeur Flutter</span><p>Plateforme de streaming d'événements live et de matchs en direct : commentaires en temps réel (WebSocket), notifications push et achats de streaming.</p><div class="project-tags"><span>Flutter</span><span>WebSocket</span><span>Notifications push</span></div><div class="project-stores"><a class="store-pill" href="https://apps.apple.com/sn/app/nawetane-social-solidaire/id6748228760?l=fr-FR" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>App Store</a><a class="store-pill" href="https://play.google.com/store/apps/details?id=net.appdevs.N2S" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>Google Play</a></div></div>
+          </article>
+
+          <article class="project spotlight tilt-card" data-reveal>
+            <div class="project-head"><span class="project-type">Secteur associatif</span><a class="project-link" href="https://play.google.com/store/apps/details?id=com.appdevs.RAS" target="_blank" rel="noopener noreferrer" aria-label="Voir RAS sur Google Play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div><span class="project-symbol tri" aria-hidden="true">RAS</span>
+            <div class="project-content"><h3>Réseaux AVECs du Sénégal</h3><span class="project-role">Développeur Flutter</span><p>Application de gestion des Associations Villageoises d'Épargne et de Crédit : création d'AVECs, invitations de membres, vérification OTP et tableau de bord.</p><div class="project-tags"><span>Flutter</span><span>OTP</span><span>Dashboard</span></div><div class="project-stores"><a class="store-pill" href="https://apps.apple.com/sn/app/ras-r%C3%A9seaux-avecs-du-s%C3%A9n%C3%A9gal/id6754563753?l=fr-FR" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>App Store</a><a class="store-pill" href="https://play.google.com/store/apps/details?id=com.appdevs.RAS" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>Google Play</a></div></div>
+          </article>
+
+          <article class="project spotlight tilt-card" data-reveal style="--delay:80ms">
+            <div class="project-head"><span class="project-type">Sport · Application mobile</span><a class="project-link" href="https://play.google.com/store/apps/details?id=net.appdevs.stadeMbour" target="_blank" rel="noopener noreferrer" aria-label="Voir Stade de Mbour sur Google Play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div><span class="project-symbol tri" aria-hidden="true">SDM</span>
+            <div class="project-content"><h3>Stade de Mbour</h3><span class="project-role">Développeur Flutter</span><p>Application mobile dédiée au club Stade de Mbour : actualités, suivi des matchs en direct et billetterie en ligne.</p><div class="project-tags"><span>Flutter</span><span>Live</span><span>Billetterie</span></div><div class="project-stores"><a class="store-pill" href="https://apps.apple.com/sn/app/stade-de-mbour/id6742830590?l=fr-FR" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>App Store</a><a class="store-pill" href="https://play.google.com/store/apps/details?id=net.appdevs.stadeMbour" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>Google Play</a></div></div>
+          </article>
+
+          <a class="project spotlight tilt-card" href="https://github.com/MoussaNdaodev/senMecanique" target="_blank" rel="noopener noreferrer" data-reveal>
+            <div class="project-head"><span class="project-type">Web · Services</span><span class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><span class="project-symbol" aria-hidden="true">SM</span>
+            <div class="project-content"><h3>SenMecanique</h3><span class="project-role">Développeur Full Stack</span><p>Plateforme mettant en relation des automobilistes en panne avec des mécaniciens qualifiés selon leur localisation. Gestion des rôles, demandes d'assistance et notifications.</p><div class="project-tags"><span>Laravel</span><span>Angular</span><span>MySQL</span></div></div>
+          </a>
+
+          <a class="project spotlight tilt-card" href="https://saintshoes.vercel.app/" target="_blank" rel="noopener noreferrer" data-reveal style="--delay:80ms">
+            <div class="project-head"><span class="project-type">E-commerce</span><span class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><span class="project-symbol" aria-hidden="true">SS</span>
+            <div class="project-content"><h3>Saint Shoes</h3><span class="project-role">Développeur Frontend</span><p>Site e-commerce premium pour la vente de sneakers à Dakar, avec catalogue produits, panier et navigation fluide.</p><div class="project-tags"><span>React</span><span>Tailwind CSS</span><span>Framer Motion</span></div></div>
+          </a>
+
+          <a class="project spotlight tilt-card" href="https://isep.vercel.app/" target="_blank" rel="noopener noreferrer" data-reveal>
+            <div class="project-head"><span class="project-type">Éducation · Full Stack</span><span class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><span class="project-symbol quad" aria-hidden="true">ISEP</span>
+            <div class="project-content"><h3>MyISEP</h3><span class="project-role">Développeur Full Stack</span><p>Plateforme de gestion des enseignements pour l'ISEP Abdoulaye Ly de Thiès : gestion des cours, des notes et des rôles (administration, départements, professeurs, apprenants).</p><div class="project-tags"><span>Laravel</span><span>React</span><span>TypeScript</span><span>MySQL</span></div></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section journey-section" id="parcours">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div><span class="section-kicker">Parcours</span><h2>Apprendre, pratiquer, puis <span class="accent-word">transmettre.</span></h2></div>
+          <p>Une progression continue entre missions professionnelles, projets réels et formation technique.</p>
+        </div>
+        <div class="journey">
+          <article class="journey-item" data-reveal><div class="journey-date">2025 — Présent</div><div class="journey-content"><h3>Développeur Mobile Flutter</h3><span class="journey-place">MLouma · Dakar</span><p>Applications mobiles Flutter : XamSambay, ANCAR, Nawetane Social Solidaire et Réseaux AVECs. UI/UX, API, synchronisation hors ligne et publication sur les stores.</p></div></article>
+          <article class="journey-item" data-reveal><div class="journey-date">Déc 2025 — Présent</div><div class="journey-content"><h3>Fondateur & Développeur Full Stack</h3><span class="journey-place">Ecosys IT Service</span><p>Conception et développement de solutions web et mobiles pour des clients, de l'analyse des besoins à la mise en production.</p></div></article>
+          <article class="journey-item" data-reveal><div class="journey-date">2024</div><div class="journey-content"><h3>Développeur PHP / Laravel</h3><span class="journey-place">Defar Sci · Rose Dieng Lab</span><p>Développement de l'application de gestion interne DefarFeedBack avec Laravel et Laravel API (logique métier, gestion des données, endpoints), améliorant de 30 % la rapidité des prises de décision. Coaching de 5 étudiants en PHP et JavaScript pour leurs mémoires de Licence.</p></div></article>
+        </div>
+        <div class="education-strip">
+          <article class="education" data-reveal><small>2025</small><strong>Licence 3 Informatique & Télécommunications</strong><span>ESMT — École Supérieure Multinationale des Télécommunications</span></article>
+          <article class="education" data-reveal style="--delay:70ms"><small>2022 — 2024</small><strong>DISEP — Major de promotion</strong><span>Diplôme Supérieur d'Enseignement Professionnel</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="wrap">
+        <div class="contact-card" data-reveal>
+          <div class="contact-content">
+            <span class="contact-kicker">Disponible pour collaborer</span>
+            <h2>Créons quelque chose d'utile.</h2>
+            <p>Une application mobile, une API, un produit web ou une architecture à structurer ? Échangeons sur votre besoin et imaginons la bonne solution.</p>
+            <div class="contact-actions">
+              <a class="btn btn-primary magnetic" href="mailto:moussandaodevpro@gmail.com?subject=Proposition%20de%20collaboration">Démarrer une conversation
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+              </a>
+              <a class="btn btn-secondary" href="tel:+221781751121">M'appeler</a>
+            </div>
+            <div class="contact-details"><a href="mailto:moussandaodevpro@gmail.com">moussandaodevpro@gmail.com</a><a href="tel:+221781751121">+221 78 175 11 21</a><a href="https://www.linkedin.com/in/moussa-ndao-61b1222b7" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner"><span>© <span id="year"></span> Moussa Ndao · Pikine, Dakar – Sénégal</span><a class="to-top" href="#accueil">Retour en haut <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m18 15-6-6-6 6"/></svg></a></div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const loader = document.getElementById('loader');
+    const progress = document.getElementById('progress');
+    const themeToggle = document.getElementById('themeToggle');
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const profilePhoto = document.getElementById('profilePhoto');
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    addEventListener('load', () => setTimeout(() => loader.classList.add('done'), 350));
+    setTimeout(() => loader.classList.add('done'), 1800);
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    profilePhoto.addEventListener('load', () => profilePhoto.classList.add('loaded'));
+    profilePhoto.addEventListener('error', () => profilePhoto.remove());
+    if (profilePhoto.complete && profilePhoto.naturalWidth) profilePhoto.classList.add('loaded');
+
+    themeToggle.addEventListener('click', () => {
+      const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = theme;
+      localStorage.setItem('moussa-portfolio-theme', theme);
+      document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#080b12' : '#f3f4ef';
+    });
+
+    menuToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      document.body.classList.toggle('menu-open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }));
+
+    const updateScroll = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = `${max > 0 ? scrollY / max * 100 : 0}%`;
+    };
+    updateScroll();
+    addEventListener('scroll', updateScroll, { passive: true });
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .1 });
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+
+    const navItems = [...document.querySelectorAll('.nav-links a')];
+    const sections = navItems.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) navItems.forEach(link => link.classList.toggle('active', link.hash === `#${entry.target.id}`));
+      });
+    }, { rootMargin: '-38% 0px -55% 0px' });
+    sections.forEach(section => sectionObserver.observe(section));
+
+    document.querySelectorAll('.spotlight').forEach(card => {
+      card.addEventListener('pointermove', event => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+      });
+    });
+
+    if (!reduceMotion && matchMedia('(pointer:fine)').matches) {
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        card.addEventListener('pointermove', event => {
+          const rect = card.getBoundingClientRect();
+          const rx = ((event.clientY - rect.top) / rect.height - .5) * -3;
+          const ry = ((event.clientX - rect.left) / rect.width - .5) * 3;
+          card.style.transform = `perspective(1100px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-3px)`;
+        });
+        card.addEventListener('pointerleave', () => card.style.transform = '');
+      });
+
+      document.querySelectorAll('.magnetic').forEach(button => {
+        button.addEventListener('pointermove', event => {
+          const rect = button.getBoundingClientRect();
+          button.style.transform = `translate(${(event.clientX - rect.left - rect.width / 2) * .12}px, ${(event.clientY - rect.top - rect.height / 2) * .12}px)`;
+        });
+        button.addEventListener('pointerleave', () => button.style.transform = '');
+      });
+    }
+  </script>
+</body>
+</html>
